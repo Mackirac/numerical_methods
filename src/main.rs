@@ -9,11 +9,13 @@ use integral::newton_cotes::{
 use integral::gauss::{
     legendre::g4 as gl,
     hermite::g4 as gh,
-    laguerre::g2 as glr
+    laguerre::g2 as glr,
+    chebyshev::gauss_chebyshev as gc
 };
 
 fn main() {
     let f = |x: f64| -> f64 { x.sin() };
+    let g = |x: f64| -> f64 { x.cos() };
     let h = |x: f64| -> f64 { x.powi(2)+2.0 };
 
     let i = integrate(0.0, PI, 1e-10, G, &f);
@@ -26,5 +28,8 @@ fn main() {
     println!("Gauss-Hermite Result: {:?}\n", i);
 
     let i = glr(&h);
-    println!("Gauss-Laguerre Result: {:?}", i);
+    println!("Gauss-Laguerre Result: {:?}\n", i);
+
+    let i = gc(10, &g);
+    println!("Gauss-Chebyshev Result: {:?}\n", i);
 }
