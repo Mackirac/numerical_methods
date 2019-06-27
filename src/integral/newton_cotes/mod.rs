@@ -7,7 +7,7 @@ pub trait NewtonCotes {
 
 #[allow(dead_code)]
 pub fn integrate(
-    a: f64, b: f64, precision: f64, method: impl NewtonCotes, f: fn(f64)->f64
+    a: f64, b: f64, tolerance: f64, method: impl NewtonCotes, f: fn(f64)->f64
 ) -> f64 {
     let method : fn(f64, f64, fn(f64)->f64) -> f64 = method.get();
     let mut _previous_i : f64 = 0.0;
@@ -23,6 +23,6 @@ pub fn integrate(
             actual_i += method(a+(i as f64)*step, a+((i+1) as f64)*step, f);
         }
 
-        if (actual_i - _previous_i).abs() <= precision { return actual_i }
+        if (actual_i - _previous_i).abs() <= tolerance { return actual_i }
     }
 }
