@@ -4,7 +4,7 @@ use super::NewtonCotes;
 pub enum Open { G2, G3, G4 }
 
 impl NewtonCotes for Open {
-    fn get(self) -> fn(f64, f64, fn(f64)->f64)->f64 {
+    fn get <T: Fn(f64)->f64> (self) -> fn(f64, f64, &T)->f64 {
         match self {
             Open::G2 => nc2,
             Open::G3 => nc3,
@@ -14,14 +14,14 @@ impl NewtonCotes for Open {
 }
 
 #[allow(dead_code)]
-fn nc2(a: f64, b: f64, f: fn(f64)->f64) -> f64 {
+fn nc2 <T: Fn(f64)->f64> (a: f64, b: f64, f: &T) -> f64 {
     let f1 = f(a + (b - a)/2.0);
 
     f1 * (b - a)
 }
 
 #[allow(dead_code)]
-fn nc3(a: f64, b: f64, f: fn(f64)->f64) -> f64 {
+fn nc3 <T: Fn(f64)->f64> (a: f64, b: f64, f: &T) -> f64 {
     let f1 = f(a + (b - a)/3.0);
     let f2 = f(a + (b - a)*2.0/3.0);
 
@@ -29,7 +29,7 @@ fn nc3(a: f64, b: f64, f: fn(f64)->f64) -> f64 {
 }
 
 #[allow(dead_code)]
-fn nc4(a: f64, b: f64, f: fn(f64)->f64) -> f64 {
+fn nc4 <T: Fn(f64)->f64> (a: f64, b: f64, f: &T) -> f64 {
     let f1 = f(a + (b - a)/4.0);
     let f2 = f(a + (b - a)*2.0/4.0);
     let f3 = f(a + (b - a)*3.0/4.0);
