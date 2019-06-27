@@ -8,7 +8,8 @@ use integral::newton_cotes::{
 };
 use integral::gauss::{
     legendre::g4 as gl,
-    hermite::g4 as gh
+    hermite::g4 as gh,
+    laguerre::g2 as glr
 };
 
 fn main() {
@@ -22,5 +23,8 @@ fn main() {
     println!("Gauss-Legendre Result: {:.5?}\nGauss-Legendre error: {:.10?}\n", i, (i - 2.0).abs());
 
     let i = gh(&h);
-    println!("Gauss-Hermite Result: {:?}", i);
+    println!("Gauss-Hermite Result: {:?}\n", i);
+
+    let i = glr(&h);
+    println!("Gauss-Laguerre Result: {:?}", i);
 }
