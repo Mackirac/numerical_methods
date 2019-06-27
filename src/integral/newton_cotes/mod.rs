@@ -1,25 +1,15 @@
 pub mod open;
 pub mod closed;
 
-#[allow(dead_code)]
-pub enum NewtonCotes {
-    Open(open::Open),
-    Closed(closed::Closed)
-}
-
-impl NewtonCotes {
-    #[allow(dead_code)]
-    fn function(self) -> fn(f64, f64, fn(f64)->f64) -> f64 {
-        match self {
-            NewtonCotes::Open(o) => o.function(),
-            NewtonCotes::Closed(c) => c.function()
-        }
-    }
+pub trait NewtonCotes {
+    fn get(self) -> fn(f64, f64, fn(f64)->f64)->f64;
 }
 
 #[allow(dead_code)]
-pub fn integrate(a: f64, b: f64, precision: f64, method: NewtonCotes, f: fn(f64)->f64) -> f64 {
-    let method : fn(f64, f64, fn(f64)->f64) -> f64 = method.function();
+pub fn integrate(
+    a: f64, b: f64, precision: f64, method: impl NewtonCotes, f: fn(f64)->f64
+) -> f64 {
+    let method : fn(f64, f64, fn(f64)->f64) -> f64 = method.get();
     let mut _previous_i : f64 = 0.0;
     let mut actual_i : f64 = method(a, b, f);
     let mut partitions : usize = 1;
