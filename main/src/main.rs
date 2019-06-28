@@ -1,4 +1,4 @@
-mod integral;
+extern crate integral;
 
 use std::f64::consts::PI;
 
@@ -14,6 +14,8 @@ use integral::gauss::{
 };
 
 fn main() {
+    println!();
+
     let f = |x: f64| -> f64 { x.sin() };
     let g = |x: f64| -> f64 { x.cos() };
     let h = |x: f64| -> f64 { x.powi(2)+2.0 };

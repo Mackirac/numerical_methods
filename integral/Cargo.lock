@@ -4,10 +4,3 @@
 name = "integral"
 version = "0.1.0"
 
-[[package]]
-name = "main"
-version = "0.1.0"
-dependencies = [
- "integral 0.1.0",
-]
-
