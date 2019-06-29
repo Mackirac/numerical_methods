@@ -1,2 +1,2 @@
 [workspace]
-members = ["integral", "main"]
+members = ["auto_v", "integral", "main"]

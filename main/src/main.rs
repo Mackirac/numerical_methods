@@ -1,21 +1,23 @@
 extern crate integral;
+extern crate auto_v;
 
-use std::f64::consts::PI;
+// use std::f64::consts::PI;
 
-use integral::newton_cotes::{
-    integrate,
-    closed::Closed::G4 as G
-};
-use integral::gauss::{
-    legendre::g4 as gl,
-    hermite::g4 as gh,
-    laguerre::g2 as glr,
-    chebyshev::gauss_chebyshev as gc
-};
+// use integral::newton_cotes::{
+//     integrate,
+//     closed::Closed::G4 as G
+// };
+// use integral::gauss::{
+//     legendre::g4 as gl,
+//     hermite::g4 as gh,
+//     laguerre::g2 as glr,
+//     chebyshev::gauss_chebyshev as gc
+// };
+use auto_v::*;
 
 fn main() {
     println!();
-
+    /*
     let f = |x: f64| -> f64 { x.sin() };
     let g = |x: f64| -> f64 { x.cos() };
     let h = |x: f64| -> f64 { x.powi(2)+2.0 };
@@ -34,4 +36,12 @@ fn main() {
 
     let i = gc(10, &g);
     println!("Gauss-Chebyshev Result: {:?}\n", i);
+    */
+    let m = Matrix::from_vec(2, 2, vec!(
+        2, 3,
+        2, 4
+    ));
+    #[allow(non_snake_case)]
+    let (mv, mV) = regular_power(m, 1E-50, Vector::from_vec(vec!(6, 1)));
+    println!("Autovalor: {:?}\nAutovetor: {:?}\n", mv, mV);
 }
