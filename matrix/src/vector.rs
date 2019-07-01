@@ -39,6 +39,13 @@ impl Vector {
     pub fn normalize(self) -> Vector {
         self.clone()*(1.0/self.norm())
     }
+
+    pub fn x(self, other: Vector) -> Matrix {
+        if self.dimensions() != other.dimensions() { panic!("Unmatching vectors lengths") }
+        Matrix::new(self.dimensions(), self.dimensions(), |l, c| {
+            self[l+1] * other[c+1]
+        })
+    }
 }
 
 
@@ -46,6 +53,11 @@ impl std::ops::Index<usize> for Vector {
     type Output = f64;
     fn index(&self, index: usize) -> &Self::Output {
         &self.values[index-1]
+    }
+}
+impl std::ops::IndexMut<usize> for Vector {
+    fn index_mut(&mut self, index: usize) -> &mut Self::Output {
+        &mut self.values[index-1]
     }
 }
 

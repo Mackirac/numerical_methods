@@ -17,9 +17,14 @@ version = "0.1.0"
 dependencies = [
  "auto_v 0.1.0",
  "integral 0.1.0",
+ "pvi 0.1.0",
 ]
 
 [[package]]
 name = "matrix"
+version = "0.1.0"
+
+[[package]]
+name = "pvi"
 version = "0.1.0"
 

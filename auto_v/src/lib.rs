@@ -28,3 +28,24 @@ pub fn shift_power(A: Matrix, E: f64, x: Vector, mi: f64) -> (f64, Vector) {
     let (av, aV) = inverse_power(A.unwrap(), E, x);
     (av + mi, aV)
 }
+
+
+pub fn householder(mut A: Matrix) -> Matrix {
+    let mut H = Matrix::identity(A.lines());
+    for i in 1..A.lines()-1 {
+        let H_C = build_house_holder(&mut A, i);
+        A = ((H_C.clone() * A).unwrap() * H_C.clone()).unwrap();
+        H = (H * H_C).unwrap();
+    }
+    A
+}
+
+fn build_house_holder(A: &mut Matrix, i: usize) -> Matrix {
+    let mut v = Vector::zero(A.lines());
+    for j in i+1..A.lines()+1 {
+        v[j] = A[(j, i)];
+    }
+    v[i+1] -= v.dimensions() as f64;
+    v = v.normalize();
+    (Matrix::identity(A.lines()) - v.clone().x(v)*2.0).unwrap()
+}

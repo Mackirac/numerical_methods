@@ -13,7 +13,8 @@ extern crate auto_v;
 //     laguerre::g2 as glr,
 //     chebyshev::gauss_chebyshev as gc
 // };
-use auto_v::*;
+// use auto_v::*;
+use pvi::*;
 
 fn main() {
     println!();
@@ -42,6 +43,7 @@ fn main() {
         2, 7, 1,
         3, 3, 3
     ));
+
     #[allow(non_snake_case)]
     let (mv, mV) = regular_power(m.clone(), 1e-10, Vector::from_vec(vec!(1, 1, 1)));
     println!("Autovalor: {:?}\nAutovetor: {:?}", mv, mV);
@@ -63,4 +65,6 @@ fn main() {
     println!("{:?}", mv.clone()*mV.clone());
     println!();
     */
+    let v = forward_euler(|_, v| { 2.0*v }, 0.0, 1.0, 1.0, 10e-2);
+    println!("{:?}\n", v);
 }

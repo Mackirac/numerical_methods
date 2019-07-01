@@ -1,2 +1,2 @@
 [workspace]
-members = ["auto_v", "integral", "main"]
+members = ["pvi", "auto_v", "integral", "main"]
