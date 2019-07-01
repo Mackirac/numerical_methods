@@ -45,6 +45,30 @@ impl Matrix {
     pub fn transpose(&self) -> Matrix {
         Self::new(self.cols(), self.lines(), |l, c| self[(c+1, l+1)].clone())
     }
+
+    pub fn inverse(mut self) -> Matrix {
+        if !self.is_square() { panic!("Not invertible matrix") }
+        let mut output = Matrix::identity(self.lines());
+
+        for _l in 1..self.lines+1 {
+            let pivot = self[(_l, _l)];
+            for c in 1..self.cols+1 {
+                self[(_l, c)] /= pivot;
+                output[(_l, c)] /= pivot;
+            }
+            for l in 1..self.lines+1 {
+                let pivot = -1.0*self[(l, _l)];
+                if l != _l {
+                    for c in 1..self.cols+1 {
+                        self[(l, c)] += self[(_l, c)]*pivot;
+                        output[(l, c)] += output[(_l, c)]*pivot;
+                    }
+                }
+            }
+        }
+
+        output
+    }
 }
 
 
@@ -53,6 +77,11 @@ impl std::ops::Index<(usize, usize)> for Matrix {
     type Output = f64;
     fn index(&self, index: (usize, usize)) -> &Self::Output {
         &self.values[index.0 - 1][index.1 - 1]
+    }
+}
+impl std::ops::IndexMut<(usize, usize)> for Matrix {
+    fn index_mut(&mut self, index: (usize, usize)) -> &mut Self::Output {
+        &mut self.values[index.0 - 1][index.1 - 1]
     }
 }
 
@@ -196,5 +225,30 @@ mod tests {
         ));
         let v = Vector::from_vec(vec!(1, 0, 1));
         assert_eq!(m * v, Vector::from_vec(vec!(2, 4)));
+    }
+
+    #[test]
+    fn test_inverse() {
+        let m = Matrix::from_vec(2, 2, vec!(2, 4, 6, 8));
+        let i = Matrix::from_vec(2, 2, vec!(
+            -1.0   , 0.5,
+            3.0/4.0, -1.0/4.0
+        ));
+        assert_eq!(m.clone().inverse(), i);
+        assert_eq!(m*i, Ok(Matrix::identity(2)));
+        /*
+        let m = Matrix::from_vec(3, 3, vec!(
+            3, 3, 1,
+            2, 1, 4,
+            1, 5, 2
+        ));
+        let i = Matrix::from_vec(3, 3, vec!(
+            18./45.,  1./45., -11./45.,
+             0./45., -5./45.,  10./45.,
+            -9./45., 12./45.,   3./45.
+        ));
+        assert_eq!(m.clone().inverse(), i);
+        assert_eq!(m*i, Ok(Matrix::identity(3)));
+        */
     }
 }
