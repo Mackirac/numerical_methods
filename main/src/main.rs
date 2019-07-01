@@ -36,19 +36,31 @@ fn main() {
 
     let i = gc(10, &g);
     println!("Gauss-Chebyshev Result: {:?}\n", i);
-    */
+
     let m = Matrix::from_vec(3, 3, vec!(
-        3, 3, 1,
-        2, 1, 4,
-        1, 5, 2
+        1, 0, 1,
+        2, 7, 1,
+        3, 3, 3
     ));
     #[allow(non_snake_case)]
     let (mv, mV) = regular_power(m.clone(), 1e-10, Vector::from_vec(vec!(1, 1, 1)));
-    println!("Autovalor: {:?}\nAutovetor: {:?}\n", mv, mV);
+    println!("Autovalor: {:?}\nAutovetor: {:?}", mv, mV);
+    println!("{:?}", m.clone()*mV.clone());
+    println!("{:?}", mv.clone()*mV.clone());
+    println!();
+
+    #[allow(non_snake_case)]
+    let (mv, mV) = shift_power(m.clone(), 1e-10, Vector::from_vec(vec!(1, 1, 1)), 4.0);
+    println!("Autovalor: {:?}\nAutovetor: {:?}", mv, mV);
+    println!("{:?}", m.clone()*mV.clone());
+    println!("{:?}", mv.clone()*mV.clone());
+    println!();
+
     #[allow(non_snake_case)]
     let (mv, mV) = inverse_power(m.clone(), 1e-10, Vector::from_vec(vec!(1, 1, 1)));
-    println!("Autovalor: {:?}\nAutovetor: {:?}\n", mv, mV);
-    #[allow(non_snake_case)]
-    let (mv, mV) = d_power(m.clone(), 1e-10, Vector::from_vec(vec!(1, 1, 1)), -4.0);
-    println!("Autovalor: {:?}\nAutovetor: {:?}\n", mv, mV);
+    println!("Autovalor: {:?}\nAutovetor: {:?}", mv, mV);
+    println!("{:?}", m.clone()*mV.clone());
+    println!("{:?}", mv.clone()*mV.clone());
+    println!();
+    */
 }

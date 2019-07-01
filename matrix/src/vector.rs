@@ -88,6 +88,14 @@ impl <T: Into<f64> + Clone> std::ops::Mul<T> for Vector {
 }
 
 
+impl std::ops::Mul<Vector> for f64 {
+    type Output = Vector;
+    fn mul(self, v: Vector) -> Self::Output {
+        Vector::new(v.dimensions(), |i| self*v[i+1])
+    }
+}
+
+
 use crate::matrix::Matrix;
 impl std::ops::Mul<Matrix> for Vector {
     type Output = Vector;

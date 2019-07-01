@@ -118,6 +118,23 @@ impl std::ops::Add<Matrix> for Matrix {
 }
 
 
+// DIFFERENCE BETWEEN MATRICES
+impl std::ops::Sub<Matrix> for Matrix {
+    type Output = Result<Matrix, &'static str>;
+
+    fn sub(self, other: Matrix) -> Self::Output {
+        if (self.lines(), self.cols()) != (other.lines(), other.cols()) {
+            return Err("Unmatching matrices dimensions")
+        }
+        Ok(Matrix::new(
+            self.lines(),
+            self.cols(),
+            |l, c| { self[(l+1, c+1)].clone() - other[(l+1, c+1)].clone() }
+        ))
+    }
+}
+
+
 // PRODUCT BETWEEN MATRICES
 impl std::ops::Mul<Matrix> for Matrix {
     type Output = Result<Matrix, &'static str>;
@@ -173,6 +190,20 @@ impl std::ops::Mul<Matrix> for f64 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn assert_eq_e(m1: Matrix, m2: Matrix, e: f64) {
+        if (m1.lines(), m1.cols()) != (m2.lines(), m2.cols()) {
+            panic!("Left:\n{:?}\nRight:\n{:?}\n", m1, m2);
+        }
+        for l in 1..m1.lines()+1 {
+            for c in 1..m1.cols()+1 {
+                if (m1[(l, c)] - m2[(l, c)]).abs() > e {
+                    panic!("Left:\n{:?}\nRight:\n{:?}\n", m1, m2);
+                }
+            }
+        }
+        assert!(true)
+    }
 
     #[test]
     fn test_sum() {
@@ -252,7 +283,7 @@ mod tests {
         ));
         assert_eq!(m.clone().inverse(), i);
         assert_eq!(m*i, Ok(Matrix::identity(2)));
-        /*
+
         let m = Matrix::from_vec(3, 3, vec!(
             3, 3, 1,
             2, 1, 4,
@@ -263,8 +294,7 @@ mod tests {
              0./45., -5./45.,  10./45.,
             -9./45., 12./45.,   3./45.
         ));
-        assert_eq!(m.clone().inverse(), i);
-        assert_eq!(m*i, Ok(Matrix::identity(3)));
-        */
+        assert_eq_e(m.clone().inverse(), i.clone(), 1e-5);
+        assert_eq_e((m*i).unwrap(), Matrix::identity(3), 1e-5);
     }
 }
