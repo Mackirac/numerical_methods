@@ -13,7 +13,7 @@ extern crate auto_v;
 //     laguerre::g2 as glr,
 //     chebyshev::gauss_chebyshev as gc
 // };
-use auto_v::*;
+// use auto_v::*;
 
 fn main() {
     println!();
@@ -36,12 +36,14 @@ fn main() {
 
     let i = gc(10, &g);
     println!("Gauss-Chebyshev Result: {:?}\n", i);
-    */
-    let m = Matrix::from_vec(2, 2, vec!(
-        2, 3,
-        2, 4
+
+    let m = Matrix::from_vec(3, 3, vec!(
+        3, 3, 1,
+        2, 1, 4,
+        1, 5, 2
     ));
     #[allow(non_snake_case)]
-    let (mv, mV) = regular_power(m, 1E-50, Vector::from_vec(vec!(6, 1)));
+    let (mv, mV) = regular_power(m.clone(), 1e-10, Vector::from_vec(vec!(1, 1, 1)));
     println!("Autovalor: {:?}\nAutovetor: {:?}\n", mv, mV);
+    */
 }
