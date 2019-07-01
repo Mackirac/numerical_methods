@@ -154,6 +154,22 @@ impl std::ops::Mul<Vector> for Matrix {
 }
 
 
+impl <T: Into<f64> + Clone> std::ops::Mul<T> for Matrix {
+    type Output = Matrix;
+    fn mul(self, scalar: T) -> Self::Output {
+        Matrix::new(self.lines, self.cols, |l, c| { scalar.clone().into() * self[(l+1, c+1)] })
+    }
+}
+
+
+impl std::ops::Mul<Matrix> for f64 {
+    type Output = Matrix;
+    fn mul(self, m: Matrix) -> Self::Output {
+        m*self
+    }
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;

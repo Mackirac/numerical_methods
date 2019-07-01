@@ -23,3 +23,9 @@ pub fn inverse_power(A: Matrix, E: f64, x: Vector) -> (f64, Vector) {
     let (av, aV) = regular_power(A_I, E, x);
     (1.0/av, aV*(-1))
 }
+
+pub fn d_power(A: Matrix, E: f64, x: Vector, mi: f64) -> (f64, Vector) {
+    let A = A.clone() + (-1.0)*mi*Matrix::identity(A.lines());
+    let (av, aV) = inverse_power(A.unwrap(), E, x);
+    (av + mi, aV)
+}
