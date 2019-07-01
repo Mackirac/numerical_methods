@@ -45,5 +45,8 @@ fn main() {
     #[allow(non_snake_case)]
     let (mv, mV) = regular_power(m.clone(), 1e-10, Vector::from_vec(vec!(1, 1, 1)));
     println!("Autovalor: {:?}\nAutovetor: {:?}\n", mv, mV);
+    #[allow(non_snake_case)]
+    let (mv, mV) = inverse_power(m.clone(), 1e-10, Vector::from_vec(vec!(1, 1, 1)));
+    println!("Autovalor: {:?}\nAutovetor: {:?}\n", mv, mV);
     */
 }

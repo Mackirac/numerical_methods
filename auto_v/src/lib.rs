@@ -17,3 +17,9 @@ pub fn regular_power(A: Matrix, E: f64, mut x: Vector) -> (f64, Vector) {
         if ((v_new - v_old)/v_new).abs() <= E { return (v_new, x) }
     }
 }
+
+pub fn inverse_power(A: Matrix, E: f64, x: Vector) -> (f64, Vector) {
+    let A_I = A.inverse();
+    let (av, aV) = regular_power(A_I, E, x);
+    (1.0/av, aV*(-1))
+}
