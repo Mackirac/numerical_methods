@@ -14,10 +14,7 @@ extern crate auto_v;
 //     chebyshev::gauss_chebyshev as gc
 // };
 // use auto_v::*;
-// use pvi::{
-//     euler::*,
-//     runge_kutta::*
-// };
+use pvi::*;
 
 fn main() {
     println!();
@@ -67,11 +64,13 @@ fn main() {
     println!("{:?}", m.clone()*mV.clone());
     println!("{:?}", mv.clone()*mV.clone());
     println!();
-
+    */
     let v = forward_euler(|_, v| { 2.0*v }, 0.0, 1.0, 1.0, 10e-2);
     println!("{:?}\n", v);
 
     let v = runge_kutta(|_, v| { 2.0*v }, 0.0, 1.0, 1.0, 10e-5);
     println!("{:?}\n", v);
-    */
+
+    let v = predictor_corrector(|_, v| { 2.0*v }, 0.0, 1.0, 1.0, 10e-5);
+    println!("{:?}\n", v);
 }
