@@ -14,7 +14,7 @@ extern crate auto_v;
 //     chebyshev::gauss_chebyshev as gc
 // };
 // use auto_v::*;
-use pvi::*;
+// use pvi::*;
 
 fn main() {
     println!();
@@ -64,7 +64,16 @@ fn main() {
     println!("{:?}", m.clone()*mV.clone());
     println!("{:?}", mv.clone()*mV.clone());
     println!();
-    */
+
+    let m = Matrix::from_vec(5, 5, vec!(
+        42, 03, 07, 07, 07,
+        03, 20, 03, 09, 10,
+        07, 03, 64, 14, 14,
+        07, 09, 14, 37, 10,
+        07, 10, 14, 10, 53
+    ));
+    println!("{:?}\n", householder(m));
+
     let v = forward_euler(|_, v| { 2.0*v }, 0.0, 1.0, 1.0, 10e-2);
     println!("{:?}\n", v);
 
@@ -73,4 +82,5 @@ fn main() {
 
     let v = predictor_corrector(|_, v| { 2.0*v }, 0.0, 1.0, 1.0, 10e-5);
     println!("{:?}\n", v);
+    */
 }

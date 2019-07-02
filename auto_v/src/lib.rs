@@ -29,23 +29,24 @@ pub fn shift_power(A: Matrix, E: f64, x: Vector, mi: f64) -> (f64, Vector) {
     (av + mi, aV)
 }
 
-
 pub fn householder(mut A: Matrix) -> Matrix {
-    let mut H = Matrix::identity(A.lines());
-    for i in 1..A.lines()-1 {
-        let H_C = build_house_holder(&mut A, i);
-        A = ((H_C.clone() * A).unwrap() * H_C.clone()).unwrap();
-        H = (H * H_C).unwrap();
+    let n = A.lines();
+    for k in 1..n-2+1 {
+        let alfa = if A[(k+1, k)] < 0.0 { -1.0 } else { 1.0 } * {
+            let mut alfa = 0.0;
+            for j in k+1..n+1 {
+                alfa += A[(j, k)] * A[(j, k)];
+            }
+            f64::sqrt(alfa)
+        };
+        let r = f64::sqrt((alfa*alfa - A[(k+1, k)]*alfa) / 2.0);
+        let mut v = Vector::zero(n);
+        v[k+1] = (A[(k+1, k)] - alfa) / (2.0*r);
+        for j in k+2..n+1 {
+            v[j] = A[(j, k)] / (2.0*r);
+        }
+        let P = (Matrix::identity(n) - 2.0*v.clone().x(v)).unwrap();
+        A = ((P.clone() * A).unwrap() * P).unwrap();
     }
     A
-}
-
-fn build_house_holder(A: &mut Matrix, i: usize) -> Matrix {
-    let mut v = Vector::zero(A.lines());
-    for j in i+1..A.lines()+1 {
-        v[j] = A[(j, i)];
-    }
-    v[i+1] -= v.dimensions() as f64;
-    v = v.normalize();
-    (Matrix::identity(A.lines()) - v.clone().x(v)*2.0).unwrap()
 }
